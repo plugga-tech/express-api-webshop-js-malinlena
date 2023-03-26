@@ -8,7 +8,7 @@ GET http://localhost:3000/api/users
 
 ###
 
-// HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET - KLAR
+// HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
 POST http://localhost:3000/api/users/
 Content-Type: application/json
 
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ###
 
-// SKAPA USER - KLAR
+// SKAPA USER
 POST http://localhost:3000/api/users/add
 Content-Type: application/json
 

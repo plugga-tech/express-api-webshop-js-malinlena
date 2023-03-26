@@ -3,7 +3,7 @@ var express = require("express");
 var ObjectId = require("mongodb").ObjectId;
 var router = express.Router();
 
-// GET users listing
+// Hämta alla users
 router.get("/", function (req, res, next) {
   req.app.locals.db
     .collection("users")
@@ -25,6 +25,7 @@ router.get("/", function (req, res, next) {
     });
 });
 
+// Hämta specifik user
 router.get("/:userId", function (req, res) {
   const userId = new ObjectId(req.params.userId);
 
@@ -46,6 +47,7 @@ router.get("/:userId", function (req, res) {
     });
 });
 
+// Skapa user
 router.post("/add", function (req, res) {
   req.app.locals.db
     .collection("users")
@@ -57,3 +59,23 @@ router.post("/add", function (req, res) {
 });
 
 module.exports = router;
+
+// LOGGA IN USER
+router.post("/login", function (req, res) {
+  const { email, password } = req.body;
+  req.app.locals.db
+    .collection("users")
+    .find({ email })
+    .toArray()
+    .then((results) => {
+      const result = results[0];
+      if (password === result.password) {
+        console.log("Du är inloggad");
+      } else {
+        console.log("Inkorrekt lösenord");
+      }
+    })
+    .catch(() => {
+      console.log("Fel email");
+    });
+});
