@@ -17,7 +17,7 @@ MongoClient.connect("mongodb://127.0.0.1:27017", {
 }).then((client) => {
   console.log("Databasen är igång!");
 
-  const db = client.db("usersbook");
+  const db = client.db("malin-dahlquist");
   app.locals.db = db;
 });
 

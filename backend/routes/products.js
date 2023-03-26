@@ -3,7 +3,6 @@ var ObjectId = require("mongodb").ObjectId;
 var router = express.Router();
 
 // HÄMTA ALLA PRODUKTER
-
 router.get("/", function (req, res) {
   req.app.locals.db
     .collection("products")
@@ -30,7 +29,6 @@ router.get("/", function (req, res) {
 });
 
 // HÄMTA SPECIFIK PRODUKT
-
 router.get("/:productId", function (req, res) {
   const productId = new ObjectId(req.params.productId);
 
@@ -52,7 +50,6 @@ router.get("/:productId", function (req, res) {
 });
 
 // SKAPA PRODUKT
-
 router.post("/add", function (req, res) {
   req.app.locals.db
     .collection("products")

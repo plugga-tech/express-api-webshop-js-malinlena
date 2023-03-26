@@ -1,5 +1,4 @@
 var express = require("express");
-// const { ObjectId } = require("mongodb");
 var ObjectId = require("mongodb").ObjectId;
 var router = express.Router();
 
@@ -10,8 +9,6 @@ router.get("/", function (req, res, next) {
     .find()
     .toArray()
     .then((results) => {
-      console.log(results);
-
       let printUsers = "<div><h2>Våra users</h2>";
 
       for (user in results) {
@@ -53,12 +50,9 @@ router.post("/add", function (req, res) {
     .collection("users")
     .insertOne(req.body)
     .then((result) => {
-      console.log(result);
       res.redirect("/show");
     });
 });
-
-module.exports = router;
 
 // LOGGA IN USER
 router.post("/login", function (req, res) {
@@ -79,3 +73,5 @@ router.post("/login", function (req, res) {
       console.log("Fel email");
     });
 });
+
+module.exports = router;

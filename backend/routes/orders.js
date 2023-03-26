@@ -3,30 +3,40 @@ var ObjectId = require("mongodb").ObjectId;
 var router = express.Router();
 
 // SKAPA ORDER FÖR EN SPECIFIK USER
+router.post("/add", function (req, res) {
+  const userId = req.body.user; //new ObjectId(req.params.userId);
+  const products = req.body.products;
 
-router.post("/add/:userId", function (req, res) {
-  const userId = new ObjectId(req.params.userId);
   req.app.locals.db
     .collection("orders")
     .insertOne({
       user: userId,
-      products: req.body.products,
+      products,
     })
     .then((result) => {
+      console.log("res", result);
       res.redirect("/show");
     });
+
+  console.log("najs");
+  products.forEach((product) => {
+    console.log(product);
+    req.app.locals.db
+      .collection("products")
+      .updateOne(
+        { productId: new ObjectId(product.productId) },
+        { $inc: { lager: -product.quantity } }
+      );
+  });
 });
 
 // HÄMTA ALLA ORDERS
-
 router.get("/all", function (req, res) {
   req.app.locals.db
     .collection("orders")
     .find()
     .toArray()
     .then((results) => {
-      console.log(results);
-
       const tab = "&emsp;";
       let printOrders = "<div><h2>Alla ordrar</h2>";
 
