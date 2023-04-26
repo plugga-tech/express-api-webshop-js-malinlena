@@ -9,22 +9,7 @@ router.get("/", function (req, res) {
     .find()
     .toArray()
     .then((results) => {
-      let printProducts = "<div><h2>Våra produkter</h2>";
-
-      for (product in results) {
-        const {
-          _id: id,
-          name,
-          description,
-          price,
-          lager,
-        } = results[product] ?? {};
-        printProducts += `<div>Produkt: ${id} ${name} ${description} ${price} ${lager} </div>`;
-      }
-
-      printProducts += "</div>";
-
-      res.send(printProducts);
+      res.json(results);
     });
 });
 
@@ -38,14 +23,7 @@ router.get("/:productId", function (req, res) {
     .toArray()
     .then((results) => {
       const result = results[0];
-      const { _id: id, name, description, price, lager } = result ?? {};
-      let printProduct = `<div><h2>${name}</h2>`;
-
-      printProduct += `<div> ${id} ${name} ${description} ${price} ${lager} </div>`;
-
-      printProduct += "</div>";
-
-      res.send(printProduct);
+      res.json(result);
     });
 });
 
@@ -55,7 +33,10 @@ router.post("/add", function (req, res) {
     .collection("products")
     .insertOne(req.body)
     .then((result) => {
-      res.redirect("/show");
+      res.json({
+        status: "success",
+        data: result,
+      });
     });
 });
 

@@ -9,16 +9,7 @@ router.get("/", function (req, res, next) {
     .find()
     .toArray()
     .then((results) => {
-      let printUsers = "<div><h2>Våra users</h2>";
-
-      for (user in results) {
-        const { _id: id, name, email } = results[user] ?? {};
-        printUsers += `<div> ${id} ${name} ${email} </div>`;
-      }
-
-      printUsers += "</div>";
-
-      res.send(printUsers);
+      res.json(results);
     });
 });
 
@@ -32,15 +23,7 @@ router.get("/:userId", function (req, res) {
     .toArray()
     .then((results) => {
       const result = results[0];
-
-      let printUser = "<div><h2>Vår user</h2>";
-
-      const { _id: id, name, email } = result ?? {};
-      printUser += `<div> ${id} ${name} ${email} </div>`;
-
-      printUser += "</div>";
-
-      res.send(printUser);
+      res.json(result);
     });
 });
 
@@ -50,7 +33,10 @@ router.post("/add", function (req, res) {
     .collection("users")
     .insertOne(req.body)
     .then((result) => {
-      res.redirect("/show");
+      res.json({
+        status: "success",
+        data: result,
+      });
     });
 });
 
@@ -65,12 +51,22 @@ router.post("/login", function (req, res) {
       const result = results[0];
       if (password === result.password) {
         console.log("Du är inloggad");
+        res.json({
+          status: "success",
+          data: result,
+        });
       } else {
         console.log("Inkorrekt lösenord");
+        res.json({
+          error: { code: 401, message: "Inkorrekt lösenord" },
+        });
       }
     })
     .catch(() => {
       console.log("Fel email");
+      res.json({
+        error: { code: 401, message: "Fel email" },
+      });
     });
 });
 
