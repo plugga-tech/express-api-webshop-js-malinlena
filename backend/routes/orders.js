@@ -23,7 +23,7 @@ router.post("/add", function (req, res) {
     req.app.locals.db
       .collection("products")
       .updateOne(
-        { productId: new ObjectId(product.productId) },
+        { _id: new ObjectId(product.productId) },
         { $inc: { lager: -product.quantity } }
       );
   });
